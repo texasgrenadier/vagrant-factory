@@ -16,18 +16,22 @@ others can use it. Place it in a location where other team members can access it
 
 The following steps were written for VirtualBox 4.3.20 and may differ for other versions.
 
-Step 1: Download Virtual Box (4.3.20)
+Step 1: Download Virtual Box (5.1.4)
 
   https://www.virtualbox.org/wiki/Downloads
 
-Step 2: Download Vagrant (Version 1.6.5)
+Step 2: Download Vagrant (Version 1.8.5)
 
-  https://www.vagrantup.com/download-archive/v1.6.5.html
+  https://www.vagrantup.com/download-archive/v1.8.5.html
 
-Step 3: Download CentOS 6.5 (minimal version)
+Step 3: Download OS
 
+  CentOS 6.6 (minimal version)
   http://cosmos.cites.illinois.edu/pub/centos/6.6/isos/x86_64/
   CentOS-6.6-x86_64-minimal.iso
+
+  Ubuntu 14.04 (minimal version)
+  https://help.ubuntu.com/community/Installation/MinimalCD
 
 Step 4 (optional): Download guest additions
 
@@ -36,29 +40,30 @@ Step 4 (optional): Download guest additions
 
   http://download.virtualbox.org/virtualbox/
 
-  VBoxGuestAdditions_4.3.16.iso
+  VBoxGuestAdditions_5.1.4.iso
 
 Step 5: Create the virtual machine in VirtualBox
 
   Open VirtualBox and click New.
-  Give the virtual machine a Name: centos-6.5-x86_64.
+  Give the virtual machine a Name: centos-6.6-x86_64.
   From the Type dropdown menu choose Linux.
   From the Version dropdown menu choose Red Hat (64 bit).
   Under Memory size, leave RAM at 512 MB (Vagrant can change this on-the-fly later).
   Under Hard drive, select Create a virtual hard drive now, and click Create.
+  Under Hard drive file type, select VDI (VirtualBox Disk Image).
+  Under Storage on physical hard drive, select Dynamically allocated, and click Create.
   Under File location, leave the default name.
   Under File size, change the size to 40.00 GB.
-  Under Hard drive file type, select VDI (VirtualBox Disk Image).
   Under Storage on physical hard drive, select Dynamically allocated, and click Create.
   The virtual machine definition has now been created. Click the virtual machine name and click Settings.
   Go to the Storage tab, click Empty just under Controller: IDE, then on the right hand side of the window click the CD icon, and select Choose a virtual CD/DVD disk file….
-  Navigate to where the CentOS-6.5-x86_64-bin-DVD1.iso was downloaded, select it, and click Open.
+  Navigate to where the CentOS-6.6-x86_64-bin-DVD1.iso was downloaded, select it, and click Open.
   Go to the Audio tab and uncheck Enable Audio.
   Go to the Ports tab, then go to the USB subtab, and uncheck Enable USB Controller.
   Click Ok to close the Settings menu.
   Finally, start up the virtual machine to begin installation.
 
-Step 6: Install CentOS 6.5
+Step 6: Install CentOS 6.6
 
   You can install the operating system manually or using a Kickstart Profile.
   I will be providing steps to install the operating system manually and using
@@ -76,6 +81,10 @@ Step 6: Install CentOS 6.5
     Install the operating system however you like. Most of the default options
     can be used.
 
+    For Ubuntu, install the following:
+      Basic Ubuntu server
+      OpenSSH server
+
     Once the operating system has finished installing and booted, perform the
     following post-install steps to make it work with Vagrant.
 
@@ -87,11 +96,13 @@ Step 6: Install CentOS 6.5
 
     Install additional repository packages:
 
-      yum install -y openssh-clients man git vim wget curl ntp
+      CentOS: yum install -y openssh-clients man git vim wget curl ntp
+      Ubuntu: apt-get install -y man git vim wget curl ntp
 
     Enable the ntpd service to start on boot:
 
-      chkconfig ntpd on
+      CentOS: chkconfig ntpd on
+      Ubuntu: ntp is already configured to start
 
     Set the time:
 
@@ -101,16 +112,19 @@ Step 6: Install CentOS 6.5
 
     Enable the ssh service to start on boot:
 
-    chkconfig sshd on
+      CentOS: chkconfig sshd on
+      Ubuntu: sshd is already configured to start
 
     Disable the iptables and ip6tables services from starting on boot:
 
-      chkconfig iptables off
-      chkconfig ip6tables off
+      CentOS: chkconfig iptables off
+              chkconfig ip6tables off
+      Ubuntu: ufw disable
 
     Set SELinux to permissive:
 
-      sed -i -e 's/^SELINUX=.*/SELINUX=permissive/' /etc/selinux/config
+      CentOS: sed -i -e 's/^SELINUX=.*/SELINUX=permissive/' /etc/selinux/config
+      Ubuntu: not required
 
     Add vagrant user:
 
@@ -217,19 +231,29 @@ Step 8 (optional): Install VirtualBox Guest Additions
 
   Execute the following command on the VM:
 
+    CentOS:
     sudo yum -y update
     yum install -y gcc kernel-devel
-    cd /opt
-    sudo wget -c http://download.virtualbox.org/virtualbox/4.3.0/VBoxGuestAdditions_4.3.0.iso -O VBoxGuestAdditions_4.2.8.iso
-    sudo mount VBoxGuestAdditions_4.3.0.iso -o loop /mnt
+    NOTE: I also had to run: yum install -y kernel-devel-2.6.32.504.el6.x86_64
+    sudo wget -c http://download.virtualbox.org/virtualbox/4.3.28/VBoxGuestAdditions_4.3.28.iso -O /tmp/VBoxGuestAdditions_4.3.28.iso
+    sudo mount /tmp/VBoxGuestAdditions_4.3.28.iso -o loop /mnt
     cd /mnt
-    sudo sh VBoxLinuxAdditions.run --nox11
-    cd /opt
-    vagrantup:~$ sudo rm *.iso
-    sudo /etc/init.d/vboxadd setup
+    sudo ./VBoxLinuxAdditions.run
+    sudo rm /tmp/*.iso
     sudo chkconfig --add vboxadd
     sudo chkconfig vboxadd on
     exit
+
+
+    http://aruizca.com/steps-to-create-a-vagrant-base-box-with-ubuntu-14-04-desktop-gui-and-virtualbox/
+    Ubuntu:
+    apt-get -y update
+    apt-get -y install gcc linux-kernel-heades kernel-package
+    sudo wget -c http://download.virtualbox.org/virtualbox/4.3.28/VBoxGuestAdditions_4.3.28.iso -O /tmp/VBoxGuestAdditions_4.3.28.iso
+    sudo mount /tmp/VBoxGuestAdditions_4.3.28.iso -o loop /mnt
+    cd /mnt
+    sudo ./VBoxLinuxAdditions.run
+    sudo rm /tmp/*.iso
 
 Step 9: Create the Vagrant Box
 
