@@ -1,4 +1,4 @@
-Create a CentOS 6 Vagrant Base Box from Scratch Using VirtualBox
+Create a Linux (CentOS or Ubuntu) Vagrant Base Box from Scratch Using VirtualBox
 
 These instructions describe the steps for building a vagrant box file from
 scratch using VirtualBox. As written, these steps will create a CentOS 6.6
@@ -14,7 +14,7 @@ http://xmodulo.com/2013/07/how-to-install-virtualbox-guest-additions-for-linux.h
 The output of this process is a Vagrant box file. That file can be distributed so
 others can use it. Place it in a location where other team members can access it.
 
-The following steps were written for VirtualBox 4.3.20 and may differ for other versions.
+The following steps were written for VirtualBox 5.1.4 and may differ for other versions.
 
 Step 1: Download Virtual Box (5.1.4)
 
@@ -26,9 +26,9 @@ Step 2: Download Vagrant (Version 1.8.5)
 
 Step 3: Download OS
 
-  CentOS 6.6 (minimal version)
-  http://cosmos.cites.illinois.edu/pub/centos/6.6/isos/x86_64/
-  CentOS-6.6-x86_64-minimal.iso
+  CentOS 6.8 (minimal version)
+  http://cosmos.cites.illinois.edu/pub/centos/6/isos/x86_64/
+  CentOS-6.8-x86_64-minimal.iso
 
   Ubuntu 14.04 (minimal version)
   https://help.ubuntu.com/community/Installation/MinimalCD
@@ -45,10 +45,10 @@ Step 4 (optional): Download guest additions
 Step 5: Create the virtual machine in VirtualBox
 
   Open VirtualBox and click New.
-  Give the virtual machine a Name: centos-6.6-x86_64.
+  Give the virtual machine a Name: centos-6.6-x86_64 or ubuntu-14.04.
   From the Type dropdown menu choose Linux.
-  From the Version dropdown menu choose Red Hat (64 bit).
-  Under Memory size, leave RAM at 512 MB (Vagrant can change this on-the-fly later).
+  From the Version dropdown menu choose Red Hat (64 bit) or Ubuntu (64-bit).
+  Under Memory size, leave RAM at 1024 MB (Vagrant can change this on-the-fly later).
   Under Hard drive, select Create a virtual hard drive now, and click Create.
   Under Hard drive file type, select VDI (VirtualBox Disk Image).
   Under Storage on physical hard drive, select Dynamically allocated, and click Create.
@@ -63,7 +63,7 @@ Step 5: Create the virtual machine in VirtualBox
   Click Ok to close the Settings menu.
   Finally, start up the virtual machine to begin installation.
 
-Step 6: Install CentOS 6.6
+Step 6: Install OS
 
   You can install the operating system manually or using a Kickstart Profile.
   I will be providing steps to install the operating system manually and using
@@ -248,9 +248,9 @@ Step 8 (optional): Install VirtualBox Guest Additions
     http://aruizca.com/steps-to-create-a-vagrant-base-box-with-ubuntu-14-04-desktop-gui-and-virtualbox/
     Ubuntu:
     apt-get -y update
-    apt-get -y install gcc linux-kernel-heades kernel-package
-    sudo wget -c http://download.virtualbox.org/virtualbox/4.3.28/VBoxGuestAdditions_4.3.28.iso -O /tmp/VBoxGuestAdditions_4.3.28.iso
-    sudo mount /tmp/VBoxGuestAdditions_4.3.28.iso -o loop /mnt
+    apt-get -y install gcc linux-kernel-headers kernel-package
+    sudo wget -c http://download.virtualbox.org/virtualbox/5.1.4/VBoxGuestAdditions_5.1.4.iso -O /tmp/VBoxGuestAdditions_5.1.4.iso
+    sudo mount /tmp/VBoxGuestAdditions_5.1.4.iso -o loop /mnt
     cd /mnt
     sudo ./VBoxLinuxAdditions.run
     sudo rm /tmp/*.iso
