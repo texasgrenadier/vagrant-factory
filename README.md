@@ -16,13 +16,13 @@ others can use it. Place it in a location where other team members can access it
 
 The following steps were written for VirtualBox 5.1.4 and may differ for other versions.
 
-Step 1: Download Virtual Box (5.1.4)
+Step 1: Download Virtual Box (5.2.8)
 
   https://www.virtualbox.org/wiki/Downloads
 
-Step 2: Download Vagrant (Version 1.8.5)
+Step 2: Download Vagrant (Version 2.0.3)
 
-  https://www.vagrantup.com/download-archive/v1.8.5.html
+  https://www.vagrantup.com/downloads.html
 
 Step 3: Download OS
 
@@ -30,17 +30,17 @@ Step 3: Download OS
   http://cosmos.cites.illinois.edu/pub/centos/6/isos/x86_64/
   CentOS-6.8-x86_64-minimal.iso
 
-  Ubuntu 14.04 (minimal version)
+  Ubuntu 14.04 or 16.04 (minimal version)
   https://help.ubuntu.com/community/Installation/MinimalCD
 
 Step 4 (optional): Download guest additions
 
   If the guest additions are needed. Download the version that matches
-  the version of VirtualBoxcorresponding to the version of VirtualBox from here:
+  the version of VirtualBox corresponding to the version of VirtualBox from here:
 
   http://download.virtualbox.org/virtualbox/
 
-  VBoxGuestAdditions_5.1.4.iso
+  VBoxGuestAdditions_5.2.8.iso
 
 Step 5: Create the virtual machine in VirtualBox
 
@@ -54,7 +54,6 @@ Step 5: Create the virtual machine in VirtualBox
   Under Storage on physical hard drive, select Dynamically allocated, and click Create.
   Under File location, leave the default name.
   Under File size, change the size to 40.00 GB.
-  Under Storage on physical hard drive, select Dynamically allocated, and click Create.
   The virtual machine definition has now been created. Click the virtual machine name and click Settings.
   Go to the Storage tab, click Empty just under Controller: IDE, then on the right hand side of the window click the CD icon, and select Choose a virtual CD/DVD disk file….
   Navigate to where the CentOS-6.6-x86_64-bin-DVD1.iso was downloaded, select it, and click Open.
@@ -249,8 +248,8 @@ Step 8 (optional): Install VirtualBox Guest Additions
     Ubuntu:
     apt-get -y update
     apt-get -y install gcc linux-kernel-headers kernel-package
-    sudo wget -c http://download.virtualbox.org/virtualbox/5.1.4/VBoxGuestAdditions_5.1.4.iso -O /tmp/VBoxGuestAdditions_5.1.4.iso
-    sudo mount /tmp/VBoxGuestAdditions_5.1.4.iso -o loop /mnt
+    sudo wget -c http://download.virtualbox.org/virtualbox/5.2.8/VBoxGuestAdditions_5.2.8.iso -O /tmp/VBoxGuestAdditions_5.2.8.iso
+    sudo mount /tmp/VBoxGuestAdditions_5.2.8.iso -o loop /mnt
     cd /mnt
     sudo ./VBoxLinuxAdditions.run
     sudo rm /tmp/*.iso
