@@ -14,13 +14,13 @@ http://xmodulo.com/2013/07/how-to-install-virtualbox-guest-additions-for-linux.h
 The output of this process is a Vagrant box file. That file can be distributed so
 others can use it. Place it in a location where other team members can access it.
 
-The following steps were written for VirtualBox 5.1.4 and may differ for other versions.
+The following steps were written for VirtualBox 5.2.16 and may differ for other versions.
 
-Step 1: Download Virtual Box (5.2.8)
+Step 1: Download Virtual Box (5.2.16)
 
   https://www.virtualbox.org/wiki/Downloads
 
-Step 2: Download Vagrant (Version 2.0.3)
+Step 2: Download Vagrant (Version 2.1.2)
 
   https://www.vagrantup.com/downloads.html
 
@@ -40,7 +40,7 @@ Step 4 (optional): Download guest additions
 
   http://download.virtualbox.org/virtualbox/
 
-  VBoxGuestAdditions_5.2.8.iso
+  VBoxGuestAdditions_5.2.16.iso
 
 Step 5: Create the virtual machine in VirtualBox
 
